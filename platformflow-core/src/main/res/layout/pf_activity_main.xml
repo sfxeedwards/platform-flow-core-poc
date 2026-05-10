@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PlatformFlow's Activity shell. Per SDK Architecture §11.2 + §13.4.
+
+  Stacks four layers in a single FrameLayout:
+   1. flow_container     — fragment host, where component-supplied Fragments render.
+   2. step_overlay       — between-step transition card ("Step 2 of 5").
+   3. loading_overlay    — covers the whole screen while withLoading{} runs.
+   4. error_overlay      — terminal-failure screen with Retry / Cancel.
+
+  Only one of the overlays is visible at a time (managed by PlatformFlowActivity).
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pf_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?android:attr/colorBackground">
+
+    <!-- 1. Fragment host. Components replace this container's content. -->
+    <FrameLayout
+        android:id="@+id/pf_flow_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 2. Step-transition overlay. Shown briefly between component steps. -->
+    <LinearLayout
+        android:id="@+id/pf_step_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/pf_step_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="@string/pf_loading"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <!-- 3. Loading overlay. Shown while withLoading{} runs. -->
+    <LinearLayout
+        android:id="@+id/pf_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="56dp"
+            android:layout_height="56dp" />
+
+        <TextView
+            android:id="@+id/pf_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:text="@string/pf_loading" />
+
+    </LinearLayout>
+
+    <!-- 4. Error overlay. Shown on terminal failures with Retry / Cancel. -->
+    <LinearLayout
+        android:id="@+id/pf_error_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pf_error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/pf_error_title_default" />
+
+        <TextView
+            android:id="@+id/pf_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text=""
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pf_error_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="@string/pf_cancel" />
+
+            <Button
+                android:id="@+id/pf_error_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pf_retry" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

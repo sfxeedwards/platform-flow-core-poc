@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">platform-flow-core</string>
+    <string name="run_sample_workflow">Run sample workflow</string>
+    <string name="initial_output">Tap the button to run a sample KYC workflow through the engine.</string>
+</resources>

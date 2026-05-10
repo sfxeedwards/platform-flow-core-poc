@@ -1,0 +1,7 @@
+<resources>
+    <string name="pf_retry">Retry</string>
+    <string name="pf_cancel">Cancel</string>
+    <string name="pf_loading">Loading…</string>
+    <string name="pf_step_format">Step %1$d of %2$d</string>
+    <string name="pf_error_title_default">Something went wrong</string>
+</resources>
